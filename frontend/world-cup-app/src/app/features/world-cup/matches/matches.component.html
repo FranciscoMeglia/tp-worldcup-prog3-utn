@@ -1,0 +1,116 @@
+<div *ngIf="pageState.loading" class="loading-spinner">
+  <p>Cargando partidos...</p>
+</div>
+
+<ng-container *ngIf="!pageState.loading">
+  
+  <div *ngIf="pageState.showNoSimulationState">
+    <p>La simulación no está disponible. Ve a la pantalla de simulación primero.</p>
+  </div>
+  
+  <div *ngIf="pageState.errorMessage">
+    <p>{{ pageState.errorMessage }}</p>
+  </div>
+
+  <div *ngIf="!pageState.showNoSimulationState && !pageState.errorMessage">
+    
+    <section class="summary-section">
+      <p>Partidos totales de esta fase: {{ pageState.totalMatches }}</p>
+      <p>Partidos jugados de esta fase: {{ pageState.playedMatches }}</p>
+      <p>Partidos pendientes de esta fase: {{ pageState.pendingMatches }}</p>
+    </section>
+  <form
+    class="mt-16"
+    *ngIf="!pageState.loading && !pageState.errorMessage "
+    (submit)="$event.preventDefault()">
+
+    <label for="stage-select">Seleccionar etapa</label>
+
+    <select
+      id="stage-select"
+      name="stageSelect"
+      class="form-control"
+      [ngModel]="pageState.selectedStage"
+      (ngModelChange)="onStageFilterChange($event)">
+      <option value="">Todos(104)</option>
+      <option [ngValue]="matchStageCode.GROUP_STAGE">Fase de grupos(72)</option>
+      <option [ngValue]="matchStageCode.ROUND_OF_32">Ronda de 32(16)</option>
+      <option [ngValue]="matchStageCode.ROUND_OF_16">Octavos de final(8)</option>
+      <option [ngValue]="matchStageCode.QUARTER_FINALS">Cuartos de final(4)</option>
+      <option [ngValue]="matchStageCode.SEMI_FINALS">Semi Finales(2)</option>
+      <option [ngValue]="matchStageCode.THIRD_PLACE">Tercer Puesto(1)</option>
+      <option [ngValue]="matchStageCode.FINAL">Final(1)</option>
+    </select>
+  </form>
+  <div class="matches-grid">
+    
+    <div class="match-card" *ngFor="let match of pageState.matches">
+      
+      <div class="match-header">
+        <span>
+          {{ match.stageLabel }} 
+          <span *ngIf="match.groupName"> - {{ match.groupName }}</span>
+        </span>
+        <span>{{ match.matchCode }}</span>
+      </div>
+      <div class="match-resolution">
+        <p><strong>{{match.resolutionLabel}}</strong></p>
+      </div>
+        <div class="match-teams">
+          <div class="team">
+          <img  class="team-crest-flag" [src]="match.homeFlag" [alt]="match.homeTeamName">
+          <span>{{ match.homeTeamName }}</span>
+          </div>
+          
+          <div class="score">
+            <ng-container *ngIf="!match.isPending; else pendingState">
+              <strong>{{ match.scoreLabel }}</strong>
+              <div *ngIf="match.penaltyLabel" class="penaltyLabel">
+                <small>Penales: {{ match.penaltyLabel }}</small>
+              </div>
+            </ng-container>
+            <ng-template #pendingState>
+              <span>VS</span>
+              <div><small>Pendiente</small></div>
+            </ng-template>
+          </div>
+          
+          <div class="team">
+            <img  class="team-crest-flag" [src]="match.awayFlag" [alt]="match.awayTeamName" >
+            <span>{{ match.awayTeamName }}</span>
+          </div>
+        </div>
+        
+      <div class="match-winner-section">
+        <p *ngIf="!match.isPending && match.winnerTeamName">
+          <strong>Ganador:</strong> {{ match.winnerTeamName }}
+        </p>
+        <p *ngIf="!match.isPending && !match.winnerTeamName">
+          <strong>Empate</strong>
+        </p>
+        <p *ngIf="match.resolutionLabel && match.resolutionLabel !== 'TIEMPO REGULAR' && match.resolutionLabel !== 'TIEMPO EXTRA' && match.resolutionLabel !== 'PENDIENTE'">
+          <small style="color: #D4AF37; font-weight: bold;">({{ match.resolutionLabel }})</small>
+        </p>
+      </div>
+        
+        <div class="match-summary">
+          <ng-container *ngIf="!match.isPending; else emptySummary">
+             <p *ngIf="match.playerOfMatchName">
+            <strong>Jugador del Partido:</strong> {{ match.playerOfMatchName }}
+            </p>
+
+            <p *ngIf="match.goalsSummary">
+            <strong>Goles:</strong> {{ match.goalsSummary }}
+            </p>
+
+            <p *ngIf="match.cardsSummary">
+            <strong>Tarjetas:</strong> {{ match.cardsSummary }}
+            </p>
+            </ng-container>
+
+            <ng-template #emptySummary>
+            <p class="summary-placeholder">Resumen pendiente</p>
+            </ng-template>
+        </div>
+
+      </div> </div> </div> </ng-container>

@@ -1,0 +1,177 @@
+<section class="card">
+  <div class="card-header">
+    <span class="card-title">Jugar la final</span>
+  </div>
+
+  <div *ngIf="pageState.teamsPreview && !pageState.teamsPreview.hasActiveFinal && !pageState.teamsPreview.canStartFinal">
+    <span>Debes re-simular la final</span>
+  </div>
+
+  <div class="error" *ngIf="pageState.errorMessage">
+    <span>{{pageState.errorMessage}}</span>
+  </div>
+
+  <div class="error" *ngIf="pageState.actionErrorMessage">
+    <span>{{pageState.actionErrorMessage}}</span>
+  </div>
+
+  <div class="final-chat-layout">
+    <div class="chat-column">
+      <section class="chat-panel" [class.is-loading]="pageState.loading">
+        <div class="chat" #chatContainer>
+          <div class="chat-messages">
+            <p class="chat-message" *ngFor="let mensaje of visibleMessages">
+              <span class="chat-message-icon" aria-hidden="true">{{mensaje.icon}}</span>
+              <span class="chat-message-text">{{mensaje.text}}</span>
+            </p>
+          </div>
+        </div>
+
+        <section class="loading chat-loading" *ngIf="pageState.loading">
+          <div class="empty-icon">⏳</div>
+          <p>Cargando final</p>
+        </section>
+      </section>
+
+      <section class="composer" *ngIf="!pageState.data && pageState.teamsPreview">
+        <div class="start-actions" *ngIf="!pageState.teamsPreview.hasActiveFinal && pageState.teamsPreview.canStartFinal">
+          <button type="button" (click)="startFinal()" [disabled]="pageState.starting">Empezar la final</button>
+        </div>
+        <div class="start-actions" *ngIf="pageState.teamsPreview.hasActiveFinal">
+          <button type="button" (click)="startFinal()" [disabled]="pageState.starting">Reanudar la final</button>
+        </div>
+      </section>
+
+      <section class="composer">
+        <div class="acciones"  *ngIf="pageState.data">
+          <button
+            type="button"
+            (click)="addAction(accion.index)"
+            [class.selected-action]="selectedActionIndex === accion.index"
+            [disabled]="pageState.sending || pageState.errorMessage!=='' || pageState.actionErrorMessage!==''"
+            *ngFor="let accion of pageState.data.options">
+            {{accion.label}}
+          </button>
+        </div>
+
+        <div class="message-input-row">
+          <input
+            #actionInput
+            type="text"
+            name="accion"
+            id="accion"
+            [value]="actionInputValue"
+            [disabled]="!pageState.data || pageState.data.isFinished || pageState.errorMessage || pageState.actionErrorMessage"
+            (input)="onActionInput($event)"
+            (keydown.enter)="sendAction(actionInput.value)">
+          <button
+            type="button"
+            (click)="sendAction(actionInput.value)"
+            [disabled]="!canSendAction(actionInput.value) || pageState.errorMessage || pageState.actionErrorMessage">
+            Enviar
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <aside class="right-side-panel">
+      <div class="match-general-data" *ngIf="pageState.data">
+        <div class="score">
+          <img class="team-crest-flag" [src]="pageState.homeFlag" [alt]="pageState.data.teamName">
+          <span class="score-value">Marcador: {{pageState.data.score}}</span>
+          <img class="team-crest-flag" [src]="pageState.awayTeamFlag" [alt]="pageState.data.opponentName">
+        </div>
+        <div class="time">
+          <span>Minuto: {{pageState.data.minute}}</span>
+        </div>
+        <div class="turn">
+          <span>Turno: {{pageState.data.turn}}</span>
+        </div>
+        <div class="zone">
+          <span>Zona de juego: {{pageState.data.zoneLabel}}</span>
+        </div>
+        <div class="possession">
+          <span>Posesión: {{pageState.data.possession}}</span>
+        </div>
+        <div class="coaches">
+          <div class="teamCoach">
+            <span>Entrenador: {{pageState.data.teamCoachName}}</span>
+            <span>Perfil: {{pageState.data.teamCoachProfile}}</span>
+          </div>
+          <div class="opponentCoach">
+            <span>Entrenador: {{pageState.data.opponentCoachName}}</span>
+            <span>Perfil: {{pageState.data.opponentCoachProfile}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="match-general-data" *ngIf="!pageState.data">
+        <div class="score">
+          <span>-</span>
+          <span>Marcador: 0 - 0</span>
+          <span>-</span>
+        </div>
+        <div class="time">
+          <span>Minuto: -</span>
+        </div>
+        <div class="turn">
+          <span>Turno: -</span>
+        </div>
+        <div class="zone">
+          <span>Zona de juego: -</span>
+        </div>
+        <div class="possession">
+          <span>Posesión: -</span>
+        </div>
+        <div class="coaches">
+          <div class="teamCoach">
+            Entrenador: <span> - </span>
+            Perfil: <span> - </span>
+          </div>
+          <div class="opponentCoach">
+            Entrenador: <span> - </span>
+            Perfil: <span> - </span>
+          </div>
+        </div>
+      </div>
+      <div class="strategy-current">
+        <span class="strategy-panel-label">Estrategia actual</span>
+        <button type="button" class="current-strategy-button" [disabled]="!canChangeStrategy() || pageState.errorMessage || pageState.actionErrorMessage">
+          {{currentStrategyLabel()}}
+        </button>
+      </div>
+
+      <div class="strategy-list">
+        <button
+          type="button"
+          class="strategy-option"
+          (click)="selectStrategy(strategy.strategy)"
+          [class.selected-strategy]="isSelectedStrategy(strategy.strategy)"
+          [disabled]="!canChangeStrategy() || pageState.actionErrorMessage !== ''"
+          *ngFor="let strategy of strategies()">
+          <span>{{strategyLabel(strategy.strategy)}}</span>
+          <small>{{strategy.description}}</small>
+        </button>
+      </div>
+
+      <div class="formation-current">
+        <span class="formation-panel-label">Formación actual</span>
+        <button type="button" class="current-formation-button" [disabled]="!canChangeFormation() || pageState.errorMessage || pageState.actionErrorMessage">
+          {{currentFormationDescription()}}
+        </button>
+      </div>
+
+      <div class="formation-list">
+        <button
+          type="button"
+          class="formation-option"
+          (click)="selectFormation(formation.formation)"
+          [class.selected-formation]="isSelectedFormation(formation.formation)"
+          [disabled]="!canChangeFormation() || pageState.actionErrorMessage !== ''"
+          *ngFor="let formation of formations()">
+          <span>{{formation.formation}}</span>
+          <small>{{formation.description}}</small>
+        </button>
+      </div>
+    </aside>
+  </div>
+</section>

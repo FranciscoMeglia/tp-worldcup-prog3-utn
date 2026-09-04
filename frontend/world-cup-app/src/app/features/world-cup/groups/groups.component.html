@@ -1,0 +1,83 @@
+<section class="card">
+    <div class="card-header">
+        <span class="card-title">Fase de grupos</span>
+    </div>
+
+    <p *ngIf="viewModel.loading" class="loading-state">Cargando grupos...</p>
+
+    <p *ngIf="viewModel.errorMessage" class="error-state">{{ viewModel.errorMessage }}</p>
+
+    <p *ngIf="viewModel.showNoSimulationState" class="empty-state">
+        Primero tenés que simular el mundial. Andá a la sección
+        <strong>Simular Final</strong> y dale al botón.
+    </p>
+
+    <div *ngIf="!viewModel.loading && !viewModel.errorMessage && !viewModel.showNoSimulationState">
+
+        <nav class="groups-tabs">
+            <button
+                    *ngFor="let g of viewModel.groups"
+                    type="button"
+                    (click)="onGroupSelected(g.group)"
+                    [class.active]="g.group === viewModel.selectedGroup">
+                Grupo {{ g.group }}
+            </button>
+        </nav>
+
+        <article *ngIf="viewModel.selectedGroupData" class="group-table">
+
+            <header class="group-table-header">
+                <h2>Grupo {{ viewModel.selectedGroupData.group }}</h2>
+                <span>Partidos jugados: {{ viewModel.selectedGroupData.matchesPlayed }}</span>
+            </header>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Pos</th>
+                    <th>Equipo</th>
+                    <th>Confederación</th>
+                    <th>PJ</th>
+                    <th>V</th>
+                    <th>E</th>
+                    <th>D</th>
+                    <th>GF</th>
+                    <th>GC</th>
+                    <th>DG</th>
+                    <th>Pts</th>
+                    <th>Clasif.</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr
+                        *ngFor="let team of viewModel.selectedGroupData.teams"
+                        [class.selected-team]="team.isSelectedTeam">
+                    <td>{{ team.position }}</td>
+                    <td>{{ team.teamName }}</td>
+                    <td>{{ team.confederation }}</td>
+                    <td>{{ team.played }}</td>
+                    <td>{{ team.wins }}</td>
+                    <td>{{ team.draws }}</td>
+                    <td>{{ team.losses }}</td>
+                    <td>{{ team.goalsFor }}</td>
+                    <td>{{ team.goalsAgainst }}</td>
+                    <td>{{ team.goalDifferenceLabel }}</td>
+                    <td>{{ team.points }}</td>
+                    <td>
+              <span *ngIf="team.qualificationBadge === 'QUALIFIED'" class="badge badge-qualified">
+                Clasificado
+              </span>
+                        <span *ngIf="team.qualificationBadge === 'BEST_THIRD'" class="badge badge-best-third">
+                Mejor 3°
+              </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <footer class="group-table-footer">
+                <small>Clasifican los 2 primeros de cada grupo y los mejores 8 terceros.</small>
+            </footer>
+        </article>
+    </div>
+</section>

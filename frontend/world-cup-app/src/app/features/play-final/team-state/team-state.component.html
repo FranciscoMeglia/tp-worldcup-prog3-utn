@@ -1,0 +1,282 @@
+<section class="card">
+  <div class="card-header">
+    <span class="card-title">Estado del equipo</span>
+  </div>
+
+  <section class="loading" *ngIf="pageState.loading">
+    <div class="empty-icon">⏳</div>
+    <p>Cargando estado de equipos</p>
+  </section>
+
+  <section class="empty-state" *ngIf="!pageState.loading && pageState.showNoFinalState">
+    <div class="empty-icon">⚠️</div>
+    <p>{{pageState.errorMessage}}</p>
+  </section>
+
+  <section class="teamListSection">
+    <div class="teamList" *ngIf="!pageState.loading && pageState.data !== null">
+  
+          <div>
+            <img class="team-crest-flag" [src]="pageState.homeFlag" [alt]="pageState.data.team.name">
+            <h1>{{pageState.data.team.name}}</h1>
+          </div>
+        
+          <div class="characteristics">
+            <h2>Formación: {{pageState.data.team.formation}}</h2>
+            <h2>Estrategia: {{pageState.data.team.strategy}}</h2>
+            <h2>Entrenador: {{pageState.data.team.coachName}}</h2>
+            <h2>Perfil: {{pageState.data.team.coachProfile}}</h2>
+          </div>
+  
+          <div class="tactical">
+            <div class="bar-row bar-attack">
+              <div class="bar-header">
+                <span class="bar-label">Ataque</span>
+                <span class="bar-value">{{pageState.data.team.tactical.attack}}</span>
+              </div>
+              <div
+                class="bar-bg"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="pageState.data.team.tactical.attack">
+                <div class="bar-fill" [style.width.%]="getPercent(pageState.data.team.tactical.attack)">
+                  <span>{{pageState.data.team.tactical.attack}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="bar-row bar-defense">
+              <div class="bar-header">
+                <span class="bar-label">Defensa</span>
+                <span class="bar-value">{{pageState.data.team.tactical.defense}}</span>
+              </div>
+              <div
+                class="bar-bg"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="pageState.data.team.tactical.defense">
+                <div class="bar-fill" [style.width.%]="getPercent(pageState.data.team.tactical.defense)">
+                  <span>{{pageState.data.team.tactical.defense}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="bar-row bar-midfield">
+              <div class="bar-header">
+                <span class="bar-label">Mediocampo</span>
+                <span class="bar-value">{{pageState.data.team.tactical.midfield}}</span>
+              </div>
+              <div
+                class="bar-bg"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="pageState.data.team.tactical.midfield">
+                <div class="bar-fill" [style.width.%]="getPercent(pageState.data.team.tactical.midfield)">
+                  <span>{{pageState.data.team.tactical.midfield}}</span>
+                </div>
+              </div>
+            </div>  
+          </div>
+  
+          <div class="onFieldPlayers">
+            <span><strong>Jugadores en cancha</strong></span>
+            <ul class="onFieldPlayersList">
+              <li *ngFor="let player of pageState.data.team.onField">
+                <div class="player-card onFieldPlayer">
+                  <div class="player-card-main">
+                    <span class="shirt-number">#{{player.shirtNumber}}</span>
+                    <div class="player-info">
+                      <div class="player-name-row">
+                        <p class="player-name">{{player.displayName || player.name}}</p>
+                      </div>
+                      <div class="player-meta">
+                        <span class="pos-tag" [ngClass]="'pos-' + (player.positionTag || player.position)">{{player.positionTag || player.position}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="energy-block">
+                    <div class="energy-text">
+                      <span>{{player.energyLabel || 'Energía'}}</span>
+                      <strong>{{energy(player.energy)}}</strong>
+                    </div>
+                    <div class="energy-track">
+                      <div class="energy-fill" [style.width.%]="getPercent(player.energy)"></div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="onBenchPlayers">
+            <span><strong>Jugadores suplentes</strong></span>
+            <ul class="onBenchPlayersList">
+              <li *ngFor="let player of pageState.data.team.bench">
+                <div class="player-card onBenchPlayer player-card-bench">
+                  <div class="player-card-main">
+                    <span class="shirt-number">#{{player.shirtNumber}}</span>
+                    <div class="player-info">
+                      <div class="player-name-row">
+                        <p class="player-name">{{player.displayName || player.name}}</p>
+                      </div>
+                      <div class="player-meta">
+                        <span class="pos-tag" [ngClass]="'pos-' + (player.positionTag || player.position)">{{player.positionTag || player.position}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="energy-block">
+                    <div class="energy-text">
+                      <span>{{player.energyLabel || 'Energía'}}</span>
+                      <strong>{{energy(player.energy)}}</strong>
+                    </div>
+                    <div class="energy-track">
+                      <div class="energy-fill" [style.width.%]="getPercent(player.energy)"></div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="substitutions">
+            <h3>Sustituciones utilizadas: {{pageState.data.team.substitutionsUsed}}</h3>
+            <h3>Sustituciones disponibles: {{pageState.data.team.remainingSubstitutions}}</h3>
+          </div>
+  
+    </div>
+  
+    <div class="opponentList" *ngIf="!pageState.loading && pageState.data !== null">
+  
+          <div>
+            <img class="team-crest-flag" [src]="pageState.awayTeamFlag" [alt]="pageState.data.opponent.name">
+            <h1>{{pageState.data.opponent.name}}</h1>
+          </div>
+        
+          <div class="characteristics">
+            <h2>Formación: {{pageState.data.opponent.formation}}</h2>
+            <h2>Estrategia: {{pageState.data.opponent.strategy}}</h2>
+            <h2>Entrenador: {{pageState.data.opponent.coachName}}</h2>
+            <h2>Perfil: {{pageState.data.opponent.coachProfile}}</h2>
+          </div>
+  
+          <div class="tactical">
+            <div class="bar-row bar-attack">
+              <div class="bar-header">
+                <span class="bar-label">Ataque</span>
+                <span class="bar-value">{{pageState.data.opponent.tactical.attack}}</span>
+              </div>
+              <div
+                class="bar-bg"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="pageState.data.opponent.tactical.attack">
+                <div class="bar-fill" [style.width.%]="getPercent(pageState.data.opponent.tactical.attack)">
+                  <span>{{pageState.data.opponent.tactical.attack}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="bar-row bar-defense">
+              <div class="bar-header">
+                <span class="bar-label">Defensa</span>
+                <span class="bar-value">{{pageState.data.opponent.tactical.defense}}</span>
+              </div>
+              <div
+                class="bar-bg"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="pageState.data.opponent.tactical.defense">
+                <div class="bar-fill" [style.width.%]="getPercent(pageState.data.opponent.tactical.defense)">
+                  <span>{{pageState.data.opponent.tactical.defense}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="bar-row bar-midfield">
+              <div class="bar-header">
+                <span class="bar-label">Mediocampo</span>
+                <span class="bar-value">{{pageState.data.opponent.tactical.midfield}}</span>
+              </div>
+              <div
+                class="bar-bg"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="pageState.data.opponent.tactical.midfield">
+                <div class="bar-fill" [style.width.%]="getPercent(pageState.data.opponent.tactical.midfield)">
+                  <span>{{pageState.data.opponent.tactical.midfield}}</span>
+                </div>
+              </div>
+            </div>  
+          </div>
+  
+          <div class="onFieldPlayers">
+            <span><strong>Jugadores en cancha</strong></span>
+            <ul class="onFieldPlayersList">
+              <li *ngFor="let player of pageState.data.opponent.onField">
+                <div class="player-card onFieldPlayer">
+                  <div class="player-card-main">
+                    <span class="shirt-number">#{{player.shirtNumber}}</span>
+                    <div class="player-info">
+                      <div class="player-name-row">
+                        <p class="player-name">{{player.displayName || player.name}}</p>
+                      </div>
+                      <div class="player-meta">
+                        <span class="pos-tag" [ngClass]="'pos-' + (player.positionTag || player.position)">{{player.positionTag || player.position}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="energy-block">
+                    <div class="energy-text">
+                      <span>{{player.energyLabel || 'Energía'}}</span>
+                      <strong>{{energy(player.energy)}}</strong>
+                    </div>
+                    <div class="energy-track">
+                      <div class="energy-fill" [style.width.%]="getPercent(player.energy)"></div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="onBenchPlayers">
+            <span><strong>Jugadores suplentes</strong></span>
+            <ul class="onBenchPlayersList">
+              <li *ngFor="let player of pageState.data.opponent.bench">
+                <div class="player-card onBenchPlayer player-card-bench">
+                  <div class="player-card-main">
+                    <span class="shirt-number">#{{player.shirtNumber}}</span>
+                    <div class="player-info">
+                      <div class="player-name-row">
+                        <p class="player-name">{{player.displayName || player.name}}</p>
+                      </div>
+                      <div class="player-meta">
+                        <span class="pos-tag" [ngClass]="'pos-' + (player.positionTag || player.position)">{{player.positionTag || player.position}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="energy-block">
+                    <div class="energy-text">
+                      <span>{{player.energyLabel || 'Energía'}}</span>
+                      <strong>{{energy(player.energy)}}</strong>
+                    </div>
+                    <div class="energy-track">
+                      <div class="energy-fill" [style.width.%]="getPercent(player.energy)"></div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="substitutions">
+            <h3>Sustituciones utilizadas: {{pageState.data.opponent.substitutionsUsed}}</h3>
+            <h3>Sustituciones disponibles: {{pageState.data.opponent.remainingSubstitutions}}</h3>
+          </div>
+  
+    </div>
+  </section>
+
+</section>

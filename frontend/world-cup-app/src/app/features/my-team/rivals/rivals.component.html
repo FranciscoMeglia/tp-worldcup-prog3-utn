@@ -1,0 +1,59 @@
+<!-- Envoltura estructural real para la tarjeta oscura -->
+<section class="card" *ngIf="viewModel as pageState">
+
+  <!-- 1. Cabecera (Se ve siempre fija arriba) -->
+  <div class="card-header">
+    <h2 class="card-title">Rivales históricos</h2>
+  </div>
+
+  <!-- 2. Estado de Carga  -->
+  <ng-container *ngIf="pageState.loading">
+    <div class="rivals-state-message">
+      <p>Cargando rivales históricos...</p>
+    </div>
+  </ng-container>
+
+  <!-- 3. Estado de Error -->
+  <ng-container *ngIf="!pageState.loading && pageState.errorMessage">
+    <div class="rivals-state-message error">
+      <div class="empty-icon">⚠️</div>
+      <p>{{ pageState.errorMessage }}</p>
+    </div>
+  </ng-container>
+
+  <!-- 4. Contenido Principal (Solo si no hay carga ni errores) -->
+  <ng-container *ngIf="!pageState.loading && !pageState.errorMessage">
+
+    <!-- ================= VISTA 1: GRILLA GENERAL DE RIVALES ================= -->
+    <ng-container *ngIf="!selectedRival">
+      <!-- Lista Vacía -->
+      <div class="rivals-state-message" *ngIf="pageState.rivals.length === 0">
+        <p>No hay registros de rivales históricos disponibles para este equipo.</p>
+      </div>
+
+      <!-- Listado de Selecciones -->
+   <div class="rivals-grid" *ngIf="pageState.rivals.length > 0">
+    <div class="rival-card" *ngFor="let rival of pageState.rivals" (click)="selectedRival = rival">
+      <h3 class="rival-flag">{{ rival.flag }} </h3>
+      <h4 class="rival-name">{{ rival.name }}</h4>
+      <p class="badge badge-primary">Rating: {{ rival.overallRating}}</p>
+    </div>
+  </div>
+</ng-container>
+    <!-- ================= VISTA 2: DETALLE DEL RIVAL SELECCIONADO ================= -->
+    <div class="rival-detail-container" *ngIf="selectedRival as rival">
+      <button (click)="selectedRival = null" class="btn">← Volver a la grilla</button>
+      
+      <h2 class="rival-badges">{{ rival.flag }} {{ rival.name }}</h2>
+      
+      <ul class="rival-detail">
+        <li><b>Confederación:</b> {{ rival.confederation }}</li>
+        <li><b>Rating Overall:</b> {{ rival.overallRating }}</li>
+        <li><b>Entrenador:</b> {{ rival.coachName }}</li>
+        <li><b>Capitán:</b> {{ rival.captain }}</li>
+        <li><b>Formación y Estrategia:</b> {{ rival.formation }} - {{ rival.strategy }}</li>
+      </ul>
+    </div>
+
+  </ng-container>
+</section>

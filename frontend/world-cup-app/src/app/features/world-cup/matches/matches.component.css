@@ -1,0 +1,225 @@
+.loading-spinner, 
+.error-message {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.summary-section {
+  background: linear-gradient(150deg, var(--team-primary), var(--team-dark));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 1.5rem;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+  border-left: 5px solid var(--team-accent);
+  border-right: 5px solid var(--team-accent);
+}
+
+.summary-section p {
+  margin: 0.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  font-style: normal;
+  color: #FFFFFF;
+}
+
+
+.mt-16 {
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+.form-control {
+  background: linear-gradient(150deg, var(--team-primary), var(--team-dark));
+  display: block;
+  width: 250%;
+  max-width: 350px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-left: 3px solid var(--team-accent);
+  border-right: 3px solid var(--team-accent);
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+.form-control option{
+  background-color: var(--team-primary);
+  color: var(--team-text-light); 
+  font-weight: bold;
+}
+.form-control:focus {
+  outline: none;
+  border-color: var(--team-accent);
+}
+
+.matches-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 1.5rem;     
+  width: 100%;
+  margin-top: 20px;
+}
+
+
+
+.match-card { 
+  min-height: 360px;
+  padding: 1.2rem;
+  background: linear-gradient(150deg, var(--team-primary), var(--team-dark));
+  display: grid;
+  grid-template-rows:
+    42px   
+    1fr       
+    38px      
+    120px;    
+  gap: 0.85rem;
+  border-left: 2.5px solid var(--team-accent);
+  border-right: 2.5px solid var(--team-accent);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.match-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 108, 53, 0.25);
+}
+
+
+.match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--team-accent);
+  padding-bottom: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--team-accent); 
+  text-transform: uppercase;
+  min-height: 0;
+  overflow: hidden;
+}
+.match-header span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.match-teams {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr 1fr;
+  align-items: center;
+  margin: 0;
+  min-height: 0;
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  min-width: 0;
+  }
+.team span {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #1A1A1A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.2em; 
+  overflow: hidden;
+}
+.team-crest-flag{
+  width: 20px;
+  height: 15px;
+}
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 2.3rem;
+  font-weight: 800;
+  color: #1A1A1A;
+  min-height: 70px;
+}
+
+.score .penaltyLabel {
+  font-size: 1rem;
+  color: #D4AF37; 
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.score span {
+  font-size: 1.2rem;
+  color: #999;
+}
+
+.match-resolution{
+  display: flex;
+  justify-content: center;
+  flex: 0.5;
+  font-size: 1.2rem;
+  color: #FFFFFF;
+  line-height: 1.2;
+  text-align: center;
+}
+.match-summary {
+  font-size: 0.9rem;
+  color: #FFFFFF;
+  background-color: #0d8041; 
+  padding: 0.85rem;
+  border-radius: 8px;
+  border-left: 2.5px solid var(--team-accent);
+  border-right: 2.5px solid var(--team-accent); 
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.match-winner-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.match-winner-section p {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.match-resolution p{
+  font-size: 1rem;
+  color: #FFFFFF;
+  line-height: 1.2;
+  text-align: center;
+  overflow: hidden;
+} 
+.match-summary p {
+  margin: 0.25rem 0;
+  line-height: 1.35;
+  display: flex;
+  align-items: center; 
+  margin: 0.25rem 0;
+  max-height: 2.70rem;      
+  overflow: hidden;        
+}
+
+.match-summary strong {
+  color: #1A1A1A;
+}

@@ -1,0 +1,297 @@
+.teamListSection {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.teamList,
+.opponentList {
+  min-width: 0;
+}
+
+.teamList > div:first-child,
+.opponentList > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.characteristics,
+.substitutions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.characteristics h2,
+.substitutions h3 {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-card-hover);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.tactical {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 20px;
+}
+
+.bar-row {
+  display: grid;
+  gap: 6px;
+}
+
+.bar-header,
+.player-card-main,
+.player-name-row,
+.player-meta,
+.energy-text {
+  display: flex;
+  align-items: center;
+}
+
+.bar-header,
+.energy-text {
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.bar-label,
+.bar-value {
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.bar-label {
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+.bar-value,
+.energy-text {
+  color: var(--text-muted);
+}
+
+.bar-bg {
+  height: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.bar-fill {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  overflow: hidden;
+  padding: 0 8px;
+  border-radius: inherit;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+  transition: width 0.8s ease;
+}
+
+.bar-attack .bar-fill {
+  background: linear-gradient(90deg, #ef5350, var(--team-accent));
+}
+
+.bar-defense .bar-fill {
+  background: linear-gradient(90deg, #42a5f5, var(--team-primary));
+}
+
+.bar-midfield .bar-fill {
+  background: linear-gradient(90deg, #66bb6a, var(--team-secondary));
+}
+
+.onFieldPlayers,
+.onBenchPlayers {
+  margin: 18px 0;
+}
+
+.onFieldPlayers > span,
+.onBenchPlayers > span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--text-muted);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.onFieldPlayersList,
+.onBenchPlayersList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.player-card {
+  display: grid;
+  gap: 10px;
+  min-height: 112px;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--team-primary);
+  border-radius: 8px;
+  background: var(--bg-card-hover);
+}
+
+.player-card:hover {
+  border-color: var(--team-primary);
+}
+
+.player-card-bench {
+  border-left-color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.player-card-main {
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.shirt-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border: 1px solid color-mix(in srgb, var(--team-primary) 38%, transparent);
+  border-radius: 8px;
+  background: var(--team-highlight);
+  color: var(--team-primary);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.player-info,
+.player-name {
+  min-width: 0;
+}
+
+.player-info {
+  flex: 1;
+}
+
+.player-name-row,
+.player-meta {
+  gap: 6px;
+}
+
+.player-name {
+  overflow: hidden;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-meta {
+  flex-wrap: wrap;
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.player-chip {
+  min-height: 18px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.player-chip-captain {
+  background: var(--team-highlight);
+  color: var(--team-accent);
+}
+
+.player-chip-yellow {
+  background: rgba(255, 193, 7, 0.18);
+  color: #ffc107;
+}
+
+.player-chip-red {
+  background: rgba(244, 67, 54, 0.2);
+  color: #ff7b72;
+}
+
+.player-chip-injured {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+}
+
+.energy-block {
+  display: grid;
+  gap: 6px;
+}
+
+.energy-text {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.energy-text strong {
+  color: var(--text-primary);
+  font-size: 11px;
+}
+
+.energy-track {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.energy-fill {
+  height: 100%;
+  min-width: 4px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #66bb6a, var(--team-accent));
+}
+
+.substitutions {
+  margin-top: 12px;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 1100px) {
+  .teamListSection {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .characteristics,
+  .substitutions,
+  .onFieldPlayersList,
+  .onBenchPlayersList {
+    grid-template-columns: 1fr;
+  }
+}

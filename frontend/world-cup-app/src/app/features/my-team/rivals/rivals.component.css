@@ -1,0 +1,17 @@
+/* Contenedor principal de la lista de rivales  */
+.rivals-grid { 
+gap: 24px;
+justify-content: center;
+}
+
+.badge-primary { 
+background: var(--team-highlight);
+color: rgb(68, 223, 68);
+border: 1px solid color-mix(in srgb, var(--team-primary) 30%, transparent); }
+
+
+.rival-detail{
+font-size: 16px;
+text-align: center;
+list-style: none;
+}

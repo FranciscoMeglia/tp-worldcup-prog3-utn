@@ -1,0 +1,6 @@
+export enum resolutionEnum {
+    REGULAR_TIME = 'TIEMPO REGULAR',
+    EXTRA_TIME = 'TIEMPO EXTRA',
+    PENALTY_SHOOTOUT = 'PENALES',
+    PENDING = 'PENDIENTE'
+}

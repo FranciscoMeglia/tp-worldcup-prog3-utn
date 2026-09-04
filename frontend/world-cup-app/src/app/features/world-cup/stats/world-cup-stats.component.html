@@ -1,0 +1,169 @@
+<div *ngIf="pageState.loading">
+  Cargado Estadisticas...
+</div>
+
+<div class="card" *ngIf="pageState.showNoDataState && !pageState.loading">
+
+  <div class="card-header">
+    <span class="card-title">
+      Estadísticas y Premios
+    </span>
+  </div>
+
+  <div class="empty-state">
+    {{ pageState.errorMessage }}
+  </div>
+
+</div>
+
+<div *ngIf="!pageState.showNoDataState && !pageState.loading">
+  <section class="card">
+    <div class="card-header">
+      <span class="card-title">
+        Estadísticas y Premios
+      </span>
+    </div>
+    
+    <div class="stats-summary-grid section-spacing">
+      <div class="card">
+        <h2 class="card-title">Matches</h2>
+        <div>{{ pageState.totalMatches }}</div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Goals</h2>
+        <div>{{ pageState.totalGoals }}</div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Avg Goals</h2>
+        <div>{{ pageState.avgGoalsPerMatch }}</div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Yellow Cards</h2>
+        <div>{{ pageState.totalYellowCards }}</div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Red Cards</h2>
+        <div>{{ pageState.totalRedCards }}</div>
+      </div>
+    </div>
+
+    <div class="podium-row section-spacing">
+      <div class="podium-card" *ngFor="let team of pageState.podium">
+
+        <div class="podium-medal">
+          {{ team.medal }}
+        </div>
+
+        <div class="podium-flag">
+          {{ team.flag }}
+        </div>
+
+        <div class="podium-name">
+          {{ team.teamName }}
+        </div>
+
+        <div class="podium-place">
+          {{ team.placeLabel }}
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="card section-spacing">
+      <div class="card-header">
+        <h2 class="card-title">Top Scorers</h2>
+      </div>
+
+      <div class="top-list">
+        <div class="top-item" *ngFor="let scorer of pageState.topScorers">
+
+          <span class="top-rank">
+            #{{ scorer.rank }}
+          </span>
+
+          <span class="top-name">
+            {{ scorer.playerName }}
+          </span>
+
+          <span class="top-team">
+            {{ scorer.teamFlag }}
+            {{ scorer.teamName }}
+          </span>
+
+          <span class="top-value">
+            {{ scorer.value }}
+          </span>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card section-spacing">
+      <div class="card-header">
+        <h2 class="card-title">Top Assists</h2>
+      </div>
+
+      <div class="top-list">
+        <div class="top-item" *ngFor="let assist of pageState.topAssists">
+
+          <span class="top-rank">
+            #{{ assist.rank }}
+          </span>
+
+          <span class="top-name">
+            {{ assist.playerName }}
+          </span>
+
+          <span class="top-team">
+            {{ assist.teamFlag }}
+            {{ assist.teamName }}
+          </span>
+
+          <span class="top-value">
+            {{ assist.value }}
+          </span>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="awards-grid section-spacing">
+
+      <div class="award-card" *ngFor="let award of pageState.awards">
+
+        <div class="award-icon">
+          {{ award.icon }}
+        </div>
+
+        <div class="award-code">
+          {{ award.title }}
+        </div>
+
+        <div class="award-winner">
+          {{ award.winnerName }}
+        </div>
+
+        <div class="award-team">
+          {{ award.teamFlag }}
+          {{ award.teamName }}
+        </div>
+
+        <div class="award-reason">
+          {{ award.reason }}
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </section>
+</div>
+

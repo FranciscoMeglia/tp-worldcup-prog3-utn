@@ -1,0 +1,340 @@
+.final-chat-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 760px) minmax(320px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.chat-column,
+.match-general-data,
+.right-side-panel,
+.strategy-current,
+.formation-current,
+.strategy-list,
+.formation-list,
+.composer {
+  display: grid;
+  gap: 10px;
+}
+
+.chat-column {
+  min-width: 0;
+  gap: 14px;
+}
+
+.chat-panel {
+  display: flex;
+  justify-content: center;
+  min-height: 320px;
+  position: relative;
+}
+
+.chat,
+.right-side-panel {
+  border: 1px solid rgba(136, 151, 189, 0.28);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.46);
+}
+
+.chat {
+  width: 100%;
+  height: 420px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding: 16px;
+  transition: background var(--transition), filter var(--transition);
+}
+
+.card > .loading:not(.chat-loading) {
+  display: none;
+}
+
+.chat-panel.is-loading .chat {
+  background: rgba(5, 10, 24, 0.82);
+  filter: brightness(0.72);
+}
+
+.chat-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.34);
+  color: var(--text-primary);
+  pointer-events: none;
+}
+
+.chat-loading .empty-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 24px;
+}
+
+.chat-loading p {
+  margin: 0;
+  font-weight: 800;
+}
+
+.chat-messages {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.chat-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: fit-content;
+  max-width: 84%;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  background: rgba(120, 132, 164, 0.22);
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+
+.chat-message-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.chat-message-text,
+.message-input-row input {
+  min-width: 0;
+}
+
+.right-side-panel {
+  width: 100%;
+  min-width: 0;
+  max-height: 520px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 14px;
+  gap: 12px;
+}
+
+.score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 66px;
+  margin: 4px 0 8px;
+  padding: 12px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--team-primary), var(--team-dark));
+}
+
+.score-value {
+  color: var(--team-text-light);
+  font-size: 16px;
+  font-weight: 900;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.team-crest-flag {
+  width: 44px;
+  height: 30px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 4px;
+}
+
+.time span,
+.turn span,
+.zone span,
+.possession span {
+  display: block;
+  padding: 8px 10px;
+  border-left: 3px solid var(--team-accent);
+  border-radius: 8px;
+  background: var(--bg-card-hover);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.coaches {
+  display: grid;
+  gap: 8px;
+}
+
+.coaches div {
+  display: flex;
+  flex-direction: column;
+}
+
+.coaches .teamCoach,
+.coaches .opponentCoach {
+  gap: 3px;
+  padding: 9px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 12px;
+}
+
+.coaches span:first-child {
+  font-weight: 800;
+}
+
+.coaches span:last-child,
+.strategy-option small,
+.formation-option small,
+.strategy-panel-label,
+.formation-panel-label {
+  color: var(--text-muted);
+}
+
+.strategy-panel-label,
+.formation-panel-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.strategy-option,
+.formation-option {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  max-width: 100%;
+  text-align: left;
+}
+
+.strategy-option small,
+.formation-option small {
+  line-height: 1.3;
+}
+
+.current-strategy-button,
+.current-formation-button {
+  width: 100%;
+  text-align: left;
+}
+
+.composer {
+  width: min(100%, 720px);
+  margin: 0 auto;
+}
+
+.acciones,
+.start-actions,
+.message-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.acciones,
+.start-actions {
+  justify-content: center;
+}
+
+.acciones {
+  flex-wrap: wrap;
+}
+
+.message-input-row input {
+  flex: 1;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid rgba(136, 151, 189, 0.34);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.54);
+  color: var(--text-primary);
+}
+
+.message-input-row input:focus {
+  outline: none;
+  border-color: var(--team-accent);
+}
+
+.acciones button,
+.start-actions button,
+.message-input-row button,
+.strategy-option,
+.formation-option,
+.current-strategy-button,
+.current-formation-button {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform var(--transition), border-color var(--transition), background var(--transition);
+}
+
+.acciones button,
+.start-actions button,
+.message-input-row button {
+  width: auto;
+}
+
+.start-actions button,
+.message-input-row button {
+  background: var(--team-accent);
+  color: var(--team-accent-contrast);
+  border-color: var(--team-accent);
+}
+
+.start-actions button {
+  min-height: 46px;
+  padding: 10px 20px;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: var(--team-accent);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+.selected-action,
+.selected-strategy,
+.selected-formation {
+  border-color: rgba(143, 227, 168, 0.48);
+  background: rgba(84, 201, 114, 0.2);
+  color: #8fe3a8;
+}
+
+.error {
+  margin: 12px 0;
+  color: #ff9d9d;
+}
+
+@media (max-width: 900px) {
+  .final-chat-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .right-side-panel {
+    max-height: none;
+  }
+}

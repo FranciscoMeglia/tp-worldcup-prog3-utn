@@ -1,0 +1,83 @@
+.podium-card,
+.stat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.podium-card {
+  gap: 6px;
+  min-height: 96px;
+}
+
+.podium-name {
+  display: block;
+  margin-top: 2px;
+}
+
+.podium-place {
+  display: block;
+  margin-top: 2px;
+}
+
+.podium-flag {
+  width: 36px;
+  height: 24px;
+  object-fit: cover;
+}
+
+.award-winner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.award-flag {
+  width: 20px;
+  height: 15px;
+  object-fit: contain;
+}
+
+.stat-box {
+  min-height: 110px;
+  gap: 6px;
+}
+
+.history-cards-stat {
+  font-size: 22px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.history-card-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.history-badge-id {
+  font-size: 10px;
+}
+
+.history-badge-date {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.history-subtitle {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.visually-hidden-label {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .history-card-meta {
+    align-items: flex-start;
+  }
+}

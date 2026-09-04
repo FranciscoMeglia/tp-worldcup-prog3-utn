@@ -1,0 +1,124 @@
+<section class="card">
+  <div class="card-header">
+    <span class="card-title">Camino del equipo</span>
+    <span class="badge badge-primary">{{ pageState.selectedTeamLabel }}</span>
+  </div>
+
+  <div class="empty-state" *ngIf="pageState.loading">
+    <div class="empty-icon">⏳</div>
+    <p>Cargando camino del equipo...</p>
+  </div>
+
+  <div class="empty-state" *ngIf="!pageState.loading && pageState.errorMessage">
+    <div class="empty-icon">⚠️</div>
+    <p>{{ pageState.errorMessage }}</p>
+  </div>
+
+  <div
+    class="empty-state"
+    *ngIf="!pageState.loading && pageState.showNoSimulationState"
+  >
+    <div class="empty-icon">🌍</div>
+    <p>
+      No hay un mundial simulado. Simulá un mundial primero para ver el camino
+      del equipo.
+    </p>
+  </div>
+
+  <ng-container
+    *ngIf="
+      !pageState.loading &&
+      !pageState.errorMessage &&
+      !pageState.showNoSimulationState &&
+      pageState.journey
+    "
+  >
+    <!-- Banner principal -->
+    <div
+      class="journey-banner mt-16"
+      [class.journey-banner--champion]="pageState.journey.isChampion"
+    >
+      <div class="journey-banner-champion" *ngIf="pageState.journey.isChampion">
+        <span class="champion-star">⭐</span>
+        <span class="champion-text">¡CAMPEÓN DEL MUNDO!</span>
+        <span class="champion-star">⭐</span>
+      </div>
+
+      <div class="journey-banner-stats">
+        <div class="journey-banner-item">
+          <span class="journey-banner-label">Etapa alcanzada</span>
+          <span class="journey-banner-value">{{
+            pageState.journey.stageReachedLabel
+          }}</span>
+        </div>
+        <div class="journey-banner-separator"></div>
+        <div class="journey-banner-item">
+          <span class="journey-banner-label">Partidos jugados</span>
+          <span class="journey-banner-value">{{
+            pageState.journey.matchesPlayed
+          }}</span>
+        </div>
+      </div>
+
+      <div class="journey-banner-summary" *ngIf="pageState.journey.summary">
+        <p class="summary-text">{{ pageState.journey.summary }}</p>
+      </div>
+    </div>
+
+    <div
+      class="info-bar mt-12"
+      *ngIf="
+        pageState.journey.eliminatedByTeamName &&
+        !pageState.journey.isChampion &&
+        !pageState.journey.isFinalPending
+      "
+    >
+      <span class="info-icon">⚔️</span>
+      <span
+        >Eliminado por:
+        <strong>{{ pageState.journey.eliminatedByTeamName }}</strong></span
+      >
+    </div>
+
+    <section
+      class="timeline mt-24"
+      *ngIf="pageState.journey.matches.length > 0"
+    >
+      <h3 class="section-subtitle">Partidos disputados</h3>
+      <div class="timeline-list">
+        <div
+          class="timeline-item"
+          *ngFor="let match of pageState.journey.matches"
+          [ngClass]="getResultRowClass(match.resultStyle)"
+        >
+          <div class="timeline-item-header">
+            <span class="stage-chip">{{ match.stageLabel }}</span>
+            <span class="match-code">{{ match.matchCode }}</span>
+          </div>
+
+          <div class="timeline-item-body">
+            <div class="opponent-info">
+              <span class="opponent-flag" *ngIf="match.opponentFlag">{{
+                match.opponentFlag
+              }}</span>
+              <span class="opponent-name">{{ match.opponentTeamName }}</span>
+            </div>
+            <div class="match-result-area">
+              <span class="score-label">{{ match.scoreLabel }}</span>
+              <span
+                class="result-badge"
+                [ngClass]="getResultBadgeClass(match.resultStyle)"
+              >
+                {{ match.resultLabel }}
+              </span>
+            </div>
+          </div>
+
+          <div class="timeline-item-footer" *ngIf="!match.isPending">
+            <span class="resolution-label">{{ match.resolutionLabel }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+</section>

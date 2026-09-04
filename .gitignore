@@ -1,0 +1,28 @@
+# Dependencias
+node_modules/
+
+# Builds
+dist/
+build/
+.angular/
+
+# Entornos
+.env
+.env.local
+.env.docker
+
+# Bases de datos locales
+*.db
+*.sqlite
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editores
+.idea/
+*.swp

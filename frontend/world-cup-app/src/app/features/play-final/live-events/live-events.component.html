@@ -1,0 +1,115 @@
+<section class="card">
+
+  <div class="empty-state" *ngIf="pageState.showNoFinalState && !pageState.loading">
+    <div class="empty-icon">⚠️</div>
+    <p>{{ pageState.errorMessage }}</p>
+  </div>
+
+  <div class="empty-state" *ngIf="pageState.loading">
+    <div class="empty-icon">⏳</div>
+    <p>Cargando eventos de la final...</p>
+  </div>
+  
+  <ng-container *ngIf="pageState.data as data">
+  
+      <div class="badge badge-gray" *ngIf="pageState.data.isFinished">
+        <span>Final Terminada</span>
+      </div>
+ 
+  <Section class = "liveEvent-card">
+
+    <section class="liveEvent-header">
+
+      <div class="liveEvent-header-team">
+        <span class="flag" > {{data.team.flag}}</span>
+        
+        <p class="liveEvent-header-info">
+           {{data.team.name}}</p>
+        <p class="liveEvent-header-info"> 
+           {{data.team.strategy}}
+           {{data.team.formation}}
+        </p>
+      </div>
+               
+      <span class="liveEvent-header-score">{{data.score}}</span>
+        
+      <div class="liveEvent-header-opponent">
+        <span class="flag">{{data.opponent.flag}}</span>
+        <p class="liveEvent-header-info">
+          {{data.opponent.name}}
+        </p>
+        <p class="liveEvent-header-info">
+          {{data.opponent.strategy}}
+          {{data.opponent.formation}}
+        </p>
+      </div>
+      <div class="liveEvent-header-status">
+          {{data.minute}}' • Turno {{data.turn}} • {{data.zone}}
+      </div>
+    
+    </section>
+
+    <div class="liveEvents-bottom-tittle">
+      <h3 class="label-tittle">Eventos: </h3>
+      <h3 class="label-tittle">Resumen </h3>
+    </div>
+    
+    <section class="liveEvents-bottom"> 
+      
+       <div class="liveEvents-bottom-messageEvent-List">
+          <div class="liveEvents-bottom-messageEvent-item"
+           *ngFor="let event of data.events"
+           [ngClass]="'event-' + event.style"
+          >
+            <span>{{event.minute}}´´</span>
+            <span class="event-text">{{event.text}}</span>
+            <span>{{event.icon}}</span>
+          </div>
+        </div>   
+
+      <section class="liveEvents-bottom-sideBar">
+        <div class="liveEvents-bottom-info">
+          <span class="liveEvents-bottom-marcador">{{data.score}}</span>
+
+          <div class="liveEvents-bottom-info-tarjetas">
+            <span class="liveEvents-bottom-info-tarjetas-tittle">Tarjetas:</span>
+            <div class="liveEvents-bottom-info-tarjetas-team">
+              <span class="liveEvents-bottom-info-tarjetas-teamId">{{data.teamId}}:</span>
+              <span>🟨{{data.summary.teamYellowCards}} </span>
+              <span>🟥{{data.summary.teamRedCards}} </span>
+            </div>
+            <div class="liveEvents-bottom-info-tarjetas-team">
+              <span class="liveEvents-bottom-info-tarjetas-teamId">{{data.opponent.id}}:</span>
+              <span>🟨{{data.summary.opponentYellowCards}} </span>
+              <span>🟥{{data.summary.opponentRedCards}}</span>
+            </div>
+          </div>
+
+          <span class="liveEvents-bottom-info-totalEvents">Total Eventos: {{data.events.length}}</span>
+          
+          <ng-container *ngIf="data.playerOfMatch as pom">
+            <div class="liveEvents-bottom-info-pom">  
+             <span>jugador del Partido:</span>
+             <span>{{pom.playerName}}</span>
+             <span>{{pom.teamName}}</span>
+             <span>{{pom.teamFlag}}</span>  
+            </div>
+          </ng-container>
+
+          <div>
+            <p>Resumen de Goles:</p>
+            <ng-container *ngFor="let events of data.events">
+              <div class=" goal-resume" *ngIf="events.style === 'goal'">
+                <p>{{events.minute}} - {{events.text}}</p>
+              </div>
+            </ng-container>
+          </div>
+
+        </div>
+      </section>
+      
+    </section>
+
+  </Section>
+</ng-container>
+</section>

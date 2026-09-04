@@ -1,0 +1,18 @@
+:host {
+  display: contents;
+}
+
+button.nav-item {
+  width: 100%;
+  background: transparent;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  text-align: left;
+}
+
+.team-crest-flag {
+  width: 24px;
+  height: 18px;
+  object-fit: contain;
+}

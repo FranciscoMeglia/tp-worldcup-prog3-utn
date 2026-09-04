@@ -1,0 +1,203 @@
+<section class="card">
+  <header class="card-header">
+    <h2 class="card-title">Historial de mundiales</h2>
+
+    <span class="badge badge-primary"
+      *ngIf="!pageState.loading && !pageState.errorMessage && !pageState.showNoDataState">
+      {{ pageState.totalWorldCups }} mundiales finalizados
+    </span>
+  </header>
+
+  <section class="empty-state" *ngIf="pageState.loading">
+    <span class="empty-icon">⏳</span>
+    <p>Cargando historial de mundiales...</p>
+  </section>
+
+  <section class="empty-state" *ngIf="!pageState.loading && pageState.errorMessage">
+    <span class="empty-icon">⚠️</span>
+    <p>{{ pageState.errorMessage }}</p>
+  </section>
+
+  <section class="empty-state" *ngIf="!pageState.loading && pageState.showNoDataState">
+    <span class="empty-icon">🏆</span>
+    <p>El historial estará disponible luego de disputar finales.</p>
+  </section>
+
+  <section *ngIf="!pageState.loading && !pageState.errorMessage && !pageState.showNoDataState">
+    <aside class="info-bar">
+      <span class="info-icon">🏆</span>
+      <span>Hay <strong>{{ pageState.totalWorldCups }}</strong> mundiales finalizados en el historial.</span>
+    </aside>
+
+    <form class="filters-row mt-16" (submit)="$event.preventDefault()">
+      <label class="visually-hidden-label" for="world-cup-select">Seleccionar mundial</label>
+
+      <select id="world-cup-select" name="worldCupId" class="form-control" [ngModel]="selectedWorldCupId"
+        (ngModelChange)="onWorldCupChange($event)">
+        <option value="">Seleccionar mundial...</option>
+
+        <option *ngFor="let worldCup of pageState.worldCups" [value]="worldCup.worldCupId">
+          {{ worldCup.editionLabel }} ({{ worldCup.worldCupIdShort }})
+        </option>
+      </select>
+    </form>
+
+    <article class="card mt-16" *ngIf="selectedWorldCup">
+      <header class="card-header">
+        <section>
+          <h3 class="card-title">
+            {{ selectedWorldCup.editionLabel }} ({{ selectedWorldCup.worldCupIdShort }})
+          </h3>
+
+          <p class="history-subtitle">
+            {{ selectedWorldCup.finalScoreLabel }} · {{ selectedWorldCup.finalResolutionLabel }}
+          </p>
+        </section>
+
+        <section class="history-card-meta">
+          <span class="badge badge-green">{{ selectedWorldCup.statusLabel }}</span>
+          <span class="history-badge-date">Final: {{ selectedWorldCup.finalPlayedAtLabel || '-' }}</span>
+        </section>
+      </header>
+
+      <section class="mt-16">
+        <h4>Podio</h4>
+
+        <ul class="grid-4 mt-16">
+          <li class="podium-card">
+            <span class="podium-medal">🥇</span>
+            <img class="podium-flag" [src]="selectedWorldCup.champion.flag" [alt]="selectedWorldCup.champion.teamName">
+            <strong class="podium-name">{{ selectedWorldCup.champion.teamName }}</strong>
+            <span class="podium-place">Campeón</span>
+          </li>
+
+          <li class="podium-card">
+            <span class="podium-medal">🥈</span>
+            <img class="podium-flag" [src]="selectedWorldCup.runnerUp.flag" [alt]="selectedWorldCup.runnerUp.teamName">
+            <strong class="podium-name">{{ selectedWorldCup.runnerUp.teamName }}</strong>
+            <span class="podium-place">Subcampeón</span>
+          </li>
+
+          <li class="podium-card">
+            <span class="podium-medal">🥉</span>
+            <img class="podium-flag" [src]="selectedWorldCup.thirdPlace.flag"
+              [alt]="selectedWorldCup.thirdPlace.teamName">
+            <strong class="podium-name">{{ selectedWorldCup.thirdPlace.teamName }}</strong>
+            <span class="podium-place">Tercer puesto</span>
+          </li>
+
+          <li class="podium-card">
+            <span class="podium-medal">🎖️</span>
+            <img class="podium-flag" [src]="selectedWorldCup.fourthPlace.flag"
+              [alt]="selectedWorldCup.fourthPlace.teamName">
+            <strong class="podium-name">{{ selectedWorldCup.fourthPlace.teamName }}</strong>
+            <span class="podium-place">Cuarto puesto</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-16">
+        <h4>Estadísticas resumidas</h4>
+
+        <ul class="grid-4 mt-16">
+          <li class="stat-box">
+            <strong class="stat-value">{{ selectedWorldCup.totalMatches }}</strong>
+            <span class="stat-label">Partidos</span>
+          </li>
+
+          <li class="stat-box">
+            <strong class="stat-value">{{ selectedWorldCup.totalGoals }}</strong>
+            <span class="stat-label">Goles</span>
+          </li>
+
+          <li class="stat-box">
+            <strong class="stat-value">{{ selectedWorldCup.avgGoalsPerMatch }}</strong>
+            <span class="stat-label">Promedio</span>
+          </li>
+
+          <li class="stat-box">
+            <strong class="stat-value history-cards-stat">
+              🟨 {{ selectedWorldCup.yellowCards }} · 🟥 {{ selectedWorldCup.redCards }}
+            </strong>
+            <span class="stat-label">Tarjetas</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-16">
+        <h4>Jugadores destacados</h4>
+
+        <ul class="grid-2 mt-16">
+          <li class="award-card">
+            <span class="award-icon">👟</span>
+            <span class="award-code">Goleador del torneo</span>
+            <strong class="award-winner">{{ selectedWorldCup.topScorer.playerName }}</strong>
+            <span class="award-team">
+              <img class="award-flag" [src]="selectedWorldCup.topScorer.teamFlag"
+                [alt]="selectedWorldCup.topScorer.teamName">
+
+              {{ selectedWorldCup.topScorer.teamName }}
+            </span>
+            <strong class="top-value">{{ selectedWorldCup.topScorer.value }} goles</strong>
+          </li>
+
+          <li class="award-card">
+            <span class="award-icon">🎯</span>
+            <span class="award-code">Asistente del torneo</span>
+            <strong class="award-winner">{{ selectedWorldCup.topAssist.playerName }}</strong>
+            <span class="award-team">
+              <img class="award-flag" [src]="selectedWorldCup.topAssist.teamFlag"
+                [alt]="selectedWorldCup.topAssist.teamName">
+
+              {{ selectedWorldCup.topAssist.teamName }}
+            </span>
+            <strong class="top-value">{{ selectedWorldCup.topAssist.value }} asistencias</strong>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-16">
+        <h4>Fair Play</h4>
+
+        <ul class="grid-2 mt-16">
+          <li class="award-card">
+            <span class="award-icon">🤝</span>
+            <span class="award-code">Mejor fair play</span>
+            <strong class="award-winner">
+              <img class="award-flag" [src]="selectedWorldCup.fairPlay.teamFlag"
+                [alt]="selectedWorldCup.fairPlay.teamName">
+
+              {{ selectedWorldCup.fairPlay.teamName }}
+            </strong>
+            <span class="award-team">
+              {{ selectedWorldCup.fairPlay.fairPlayPoints }} puntos ·
+              🟨 {{ selectedWorldCup.fairPlay.yellowCards }} ·
+              🟥 {{ selectedWorldCup.fairPlay.redCards }}
+            </span>
+          </li>
+
+          <li class="award-card">
+            <span class="award-icon">⚠️</span>
+            <span class="award-code">Peor fair play</span>
+            <strong class="award-winner">
+              <img class="award-flag" [src]="selectedWorldCup.worstFairPlay.teamFlag"
+                [alt]="selectedWorldCup.worstFairPlay.teamName">
+
+              {{ selectedWorldCup.worstFairPlay.teamName }}
+            </strong>
+            <span class="award-team">
+              {{ selectedWorldCup.worstFairPlay.fairPlayPoints }} puntos ·
+              🟨 {{ selectedWorldCup.worstFairPlay.yellowCards }} ·
+              🟥 {{ selectedWorldCup.worstFairPlay.redCards }}
+            </span>
+          </li>
+        </ul>
+      </section>
+
+      <aside class="info-bar mt-16">
+        <span class="info-icon">🧾</span>
+        <span>ID completo: <strong>{{ selectedWorldCup.worldCupId }}</strong></span>
+      </aside>
+    </article>
+  </section>
+</section>
